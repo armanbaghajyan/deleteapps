@@ -3,7 +3,7 @@ from okta_app_info import List_Okta_Apps
 action = int(input("""
 Please choose action.
    1. List duplicatate 
-   2. Delet duplicate applications  
+   2. Delete duplicate applications  
    3. Delete application with keyword
    4. Delete single application by name
 Your Input: """))
