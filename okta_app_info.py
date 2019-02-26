@@ -1,7 +1,7 @@
 import requests
 import json
 
-okta_domain = "https://vinetidev.okta.com"
+okta_domain = "vinetidev.okta.com"
 okta_token = "007ImE9lyiIlUNnoz3DLG6GUy6WSL3tywbCkO7nDEB"
 headers = {
             "Accept": "application/json",
@@ -18,7 +18,7 @@ class List_Okta_Apps:
  
     @classmethod
     def list(cls):
-        domain = okta_domain+"/api/v1/apps?limit=9999"
+        domain = "https://{0}/api/v1/apps?limit=9999".format(okta_domain)
         okta_req = requests.get(domain, headers=headers)
         return okta_req.json()
 
@@ -30,8 +30,8 @@ class List_Okta_Apps:
         for item in okta_app_json:
             if item['status'] == 'ACTIVE':
                 okta_app_dict['label'] = item['label']
-                okta_app_dict['deactivate'] = 'https://vinetidev.okta.com/api/v1/apps/{0}/lifecycle/deactivate'.format(item['id'])
-                okta_app_dict['delete'] = 'https://vinetidev.okta.com/api/v1/apps/{0}'.format(item['id'])
+                okta_app_dict['deactivate'] = 'https://{0}/api/v1/apps/{1}/lifecycle/deactivate'.format(okta_domain, item['id'])
+                okta_app_dict['delete'] = 'https://{0}/api/v1/apps/{1}'.format(okta_domain, item['id'])
                 okta_app_dict_list.append(okta_app_dict.copy())
         return okta_app_dict_list
 
@@ -89,8 +89,8 @@ class List_Okta_Apps:
         for item in okta_app_json:
             if item['status'] == 'INACTIVE':
                 okta_app_dict['label'] = item['label']
-                okta_app_dict['deactivate'] = 'https://vinetidev.okta.com/api/v1/apps/{0}/lifecycle/deactivate'.format(item['id'])
-                okta_app_dict['delete'] = 'https://vinetidev.okta.com/api/v1/apps/{0}'.format(item['id'])
+                okta_app_dict['deactivate'] = 'https://{0}/api/v1/apps/{1}/lifecycle/deactivate'.format(okta_domain, item['id'])
+                okta_app_dict['delete'] = 'https://{0}/api/v1/apps/{1}'.format(okta_domain, item['id'])
                 okta_inactive_app_dict_list.append(okta_app_dict.copy())
 
         for item in okta_inactive_app_dict_list:
@@ -102,8 +102,8 @@ class List_Okta_Apps:
         domain = okta_domain+"/api/v1/apps?q={0}".format(label)
         okta_req_for_app = requests.get(domain, headers=headers)
         app_id = okta_req_for_app.json()[0]['id']
-        deactivate_url = 'https://vinetidev.okta.com/api/v1/apps/{0}/lifecycle/deactivate'.format(app_id)
-        delete_url = 'https://vinetidev.okta.com/api/v1/apps/{0}'.format(app_id)
+        deactivate_url = 'https://{0}/api/v1/apps/{1}/lifecycle/deactivate'.format(okta_domain, app_id)
+        delete_url = 'https://{0}/api/v1/apps/{1}'.format(okta_domain, app_id)
         deactiveate = requests.post(deactivate_url, headers=headers)
         print(deactiveate.status_code)
         delete = requests.delete(delete_url, headers=headers)
