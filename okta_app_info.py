@@ -99,7 +99,7 @@ class List_Okta_Apps:
             delete_req = requests.delete(delete_url, headers=headers)
     
     def del_by_app_label(label):
-        domain = okta_domain+"/api/v1/apps?q={0}".format(label)
+        domain = "https://{0}/api/v1/apps?q={1}".format(okta_domain, label)
         okta_req_for_app = requests.get(domain, headers=headers)
         app_id = okta_req_for_app.json()[0]['id']
         deactivate_url = 'https://{0}/api/v1/apps/{1}/lifecycle/deactivate'.format(okta_domain, app_id)

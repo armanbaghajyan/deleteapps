@@ -8,9 +8,28 @@ Please choose action.
    4. Delete single application by name
 Your Input: """))
 
+def get_confirmation():
+    confirm = input("Do you want to delete this apps?(Yes/No): ").lower()
+    if confirm == 'yes' or confirm == 'y':
+        confirm = True
+    elif confirm == 'no' or confirm == 'n':
+        print('Deleteing applications canceled.')
+        confirm = False
+    else:
+        print('Please input Yes or No')
+        confirm = False
+    return confirm
+
 def list_duplicate():
     duplicate = List_Okta_Apps.apps_to_deactivate()
-    print(duplicate)
+    for item in duplicate:
+        print(item['label'])
+
+def list_by_pattern(pattern):
+    applications = List_Okta_Apps.get_app_dict()
+    for item in applications:
+        if pattern in item['label']:
+            print(item['label'])
 
 def del_duplicate():
     duplicate = List_Okta_Apps.apps_to_deactivate()
@@ -34,13 +53,31 @@ try:
         elif (action == 1):
                 list_duplicate()
         elif (action == 2):
-                del_duplicate()
+                list_duplicate()
+                confirm = get_confirmation()
+                if confirm:
+                    print("Deleting applications")
+                    del_duplicate()
+                else:
+                    pass
         elif (action == 3):
                 pattern = input("Input Delete pattern: ")
-                del_by_pattern(pattern)
+                list_by_pattern(pattern)
+                confirm = get_confirmation()
+                if confirm:
+                    print("Deleting applications")
+                    del_by_pattern(pattern)
+                else:
+                    pass
         elif (action == 4):
                 label = input("Input application name to delete: ")
-                del_single_application(label)
+                list_by_pattern(label)
+                confirm = get_confirmation()
+                if confirm:
+                    print("Deleting applications")
+                    del_single_application(label)
+                else:
+                    pass
 except TypeError:
         print("Nothing to delete")
 except Exception as err:
