@@ -1,14 +1,17 @@
 import requests
 import json
+import readconfig
 
-okta_domain = "vinetidev.okta.com"
-okta_token = "007ImE9lyiIlUNnoz3DLG6GUy6WSL3tywbCkO7nDEB"
+okta_domain = readconfig.domain
+okta_token = readconfig.token
+
+# okta_domain = "vinetidev.okta.com"
+# okta_token = "007ImE9lyiIlUNnoz3DLG6GUy6WSL3tywbCkO7nDEB"
 headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
             "Authorization": "SSWS {0}".format(okta_token)
         }  
-
 
 class List_Okta_Apps:
     def __init__(self, okta_domain, token, headers):
